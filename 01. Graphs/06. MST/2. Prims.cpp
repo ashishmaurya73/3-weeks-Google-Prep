@@ -49,6 +49,44 @@ int minCostConnectPoints(vector<vector<int>>& points) {
         return ans;
     }
 
+// MY SOLUTION
+//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // code here
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
+        //{wt, node}
+        
+        vector<bool>inMst(V, false);
+        pq.push({0, 0});
+        int sum=0;
+        
+        // Total= O(E*(logE+logE))=O(ElogE)
+        while(!pq.empty()){ //O(E)
+            auto p=pq.top();
+            pq.pop();       //0(log(E))
+            
+            int wt  =p.first;
+            int node=p.second;
+            if(inMst[node]==true){
+                continue;
+            }
+            
+            inMst[node]=true;
+            sum+=wt;
+
+            for(auto &it: adj[node]){
+                int neighbour   =it[0];
+                int neighbour_wt=it[1];
+                if(!inMst[neighbour] ){
+                    pq.push({neighbour_wt, neighbour}); //(log(E))
+                }
+            }
+            
+        }
+        return sum;
+    }
+
 
 
 
